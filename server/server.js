@@ -13,10 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 
-//Importando las rutas del usuario
-app.use(require('./routes/usuario'));
-
-//Rutas
+//Importando las rutas
+app.use(require('./routes/index'));
 
 //Conección a la db 
 mongoose.connect(process.env.URLDB, {

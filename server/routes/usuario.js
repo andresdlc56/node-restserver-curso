@@ -4,12 +4,22 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore'); //Para filtrar propiedades de un objeto
 
 const Usuario = require('../models/usuario');
-//const usuario = require('../models/usuario');
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
 const app = express();
 
 //Buscando todos los Usuarios existentes en la DB
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
+
+    //Retornando los Valores Provenientes del verificaToken
+    /*
+    return res.json({
+        usuario: req.usuario,
+        nombre: req.usuario.nombre,
+        email: req.usuario.email,
+    });
+    */
+
     //Importante para la paginación, desde donde empieza a contar 
     let desde = req.query.desde || 0;
     //Transformando "desde" a numero
@@ -43,7 +53,8 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+//Crear Usuario, solo autorizado para el Admin
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
     let body = req.body;
 
     //Creando Objeto de tipo Usuario con los valores que vienen del body
@@ -78,8 +89,8 @@ app.post('/usuario', function(req, res) {
     });
 });
 
-//Actualizar Usuario
-app.put('/usuario/:id', function(req, res) {
+//Actualizar Usuario, solo autorizado para el Admin
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     //Obtener el id desde la url
     let id = req.params.id;
 
@@ -89,7 +100,7 @@ app.put('/usuario/:id', function(req, res) {
 
     /*
         1er parametro el id del usuario q buscamos
-        2do parametro el los datos q se actualizaran
+        2do parametro los datos q se actualizaran
         3er paramtro (opcional) retorna el usuario con los nuevos datos 
         4to parametro callback
     */
@@ -109,8 +120,9 @@ app.put('/usuario/:id', function(req, res) {
     });
 });
 
-//Borrando usuario de la DB
-app.delete('/usuario/:id', function(req, res) {
+//Borrando usuario de la DB (no lo borra, solo cambia su estado a false)
+//Eliminar Usuario, solo autorizado para el Admin 
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
 
     //Eliminando un usuario Fisicamente de la DB
