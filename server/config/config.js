@@ -1,6 +1,7 @@
 //==============================
 //  Puerto
 //==============================
+//NOTA: este puerto puede cambiar en produccion
 process.env.PORT = process.env.PORT || 3000;
 
 //==============================
@@ -36,3 +37,8 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.URLDB = urlDB;
+
+//===========================
+//  Google Client Id
+//===========================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '1057682783779-3752pn2o8ksqc369igqb7hetb8kqklui.apps.googleusercontent.com';
