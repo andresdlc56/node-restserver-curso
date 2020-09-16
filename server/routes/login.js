@@ -12,6 +12,7 @@ const Usuario = require('../models/usuario');
 
 const app = express();
 
+//Login normal
 app.post('/login', (req, res) => {
 
     //Almacenando la información proveniente del body
