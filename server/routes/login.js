@@ -143,7 +143,7 @@ app.post('/google', async(req, res) => {
 
         /*
             Si el Usuario que se intenta autenticar por la libreria de google
-            NO EXISTE en la DB, de bemos permitir que este se almacene en la db
+            NO EXISTE en la DB, debemos permitir que este se almacene en la db
         */
         else {
             let usuario = new Usuario();
